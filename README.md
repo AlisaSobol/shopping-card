@@ -1,6 +1,12 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite  -----  NEED TO LEARN REACT REDUSERS AND CONTEXT  ------
+
+continue wathcing https://www.youtube.com/watch?v=HQFeTj0dGBo&list=PL0Zuz27SZ-6NS8GXt5nPrcYpust89zq_b&index=18
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+## To run local server use following expression
+
+### npx json-server -w data/products.json -p 3500
 
 Currently, two official plugins are available:
 
