@@ -1,3 +1,5 @@
+import { ReactElement, createContext, useMemo, useReducer } from "react"
+
 export type CartItemType = {
   sku: string,
   name: string,
@@ -22,3 +24,91 @@ export type ReducerAction = {
   type: string,
   payload?: CartItemType
 }
+
+const reducer = (state: CartStateType, action: ReducerAction): CartStateType => {
+  switch (action.type) {
+    case REDUCER_ACTION_TYPE.ADD: {
+      if (!action.payload) throw new Error('action.payload is missing in ADD action')
+
+      const { sku, name, price } = action.payload
+
+      const filteredCart: CartItemType[] = state.cart.filter(item => item.sku !== sku )
+      const itemExist: CartItemType | undefined = state.cart.find(item => item.sku === sku)
+      const qty: number = itemExist ? itemExist.qty + 1 : 1
+
+      return { ...state, cart: [ ...filteredCart, { sku, name, price, qty }] }
+    }
+    case REDUCER_ACTION_TYPE.REMOVE: {
+      if (!action.payload) throw new Error('action.payload is missing in REMOVE action')
+
+      const { sku } = action.payload
+      
+      const filteredCart: CartItemType[] = state.cart.filter(item => item.sku !== sku )
+
+      return { ...state, cart: [ ...filteredCart] }
+
+    }
+    case REDUCER_ACTION_TYPE.QUANTITY: {
+      if (!action.payload) throw new Error('action.payload is missing in QUANTITY action') 
+
+      const { sku, qty } = action.payload
+
+      const itemExist: CartItemType | undefined = state.cart.find(item => item.sku === sku)
+
+      if (!itemExist) throw new Error('Item must exist in order to update quantity') 
+
+      const updatedItem: CartItemType = { ...itemExist, qty}
+      const filteredCart: CartItemType[] = state.cart.filter(item => item.sku !== sku )
+
+      return { ...state, cart: [ ...filteredCart, updatedItem] }
+
+    }
+    case REDUCER_ACTION_TYPE.SUBMIT: {
+      // "sent to server" logic
+      return { ...state, cart:[] }
+    }
+    default: 
+      throw new Error('Unidentified reducer action type')
+  }
+}
+
+// custom Hook
+const useCartContext = (initCartState: CartStateType) => {
+  const [ state, dispatch ] = useReducer(reducer, initCartState)
+
+  const REDUCER_ACTIONS = useMemo(() => REDUCER_ACTION_TYPE, [])
+
+  const totalItems: number = state.cart.reduce((prevValue, cartItem) => prevValue + cartItem.qty, 0)
+
+  const totalPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD '}).format(
+    state.cart.reduce((prev, cartItem) => (prev + (cartItem.qty*cartItem.price)), 0)
+  )
+
+  const cart = state.cart.sort((a: any, b: any) => a - b)
+
+  return { dispatch, REDUCER_ACTIONS, totalItems, totalPrice, cart}
+}
+
+export type UseCartContextType = ReturnType<typeof useCartContext>
+
+const initCartContextState: UseCartContextType = {
+  dispatch: () => { },
+  REDUCER_ACTIONS: REDUCER_ACTION_TYPE,
+  totalItems: 0,
+  totalPrice: '0',
+  cart: []
+}
+
+export const CartContext = createContext<UseCartContextType>(initCartContextState)
+
+type ChildrenType = { children?: ReactElement | ReactElement[] }
+
+export const CartProvider = ({children}: ChildrenType): ReactElement => {
+  return (
+    <CartContext.Provider value={useCartContext(initCartState)}>
+      {children}
+    </CartContext.Provider>
+  )
+}
+
+export default CartContext
