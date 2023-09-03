@@ -17,11 +17,11 @@ const ProductsContext = createContext<UseProductsContextType>(initContextState)
 type ChildrenType = { children?: ReactElement | ReactElement[] }
 
 export const ProductsProvider = ({ children }: ChildrenType): ReactElement => {
-  const [products, setProducts] = useState<ProductType[]>(initState)
+  const [ products, setProducts ] = useState<ProductType[]>(initState)
 
   useEffect(() => {
     const fetchProducts = async (): Promise<ProductType[]> => {
-      const data = await fetch('http://localhost:5173/products')
+      const data = await fetch('http://localhost:3500/products')
         .then(res => {
           return res.json()
         })

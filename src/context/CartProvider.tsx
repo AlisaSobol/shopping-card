@@ -80,7 +80,7 @@ const useCartContext = (initCartState: CartStateType) => {
 
   const totalItems: number = state.cart.reduce((prevValue, cartItem) => prevValue + cartItem.qty, 0)
 
-  const totalPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD '}).format(
+  const totalPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'}).format(
     state.cart.reduce((prev, cartItem) => (prev + (cartItem.qty*cartItem.price)), 0)
   )
 

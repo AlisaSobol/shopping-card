@@ -1,6 +1,4 @@
-# React + TypeScript + Vite  -----  NEED TO LEARN REACT REDUSERS AND CONTEXT   + TS ------
-
-continue wathcing https://www.youtube.com/watch?v=HQFeTj0dGBo&list=PL0Zuz27SZ-6NS8GXt5nPrcYpust89zq_b&index=18
+# React + TypeScript + Vite  
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
