@@ -20,13 +20,14 @@ const Product = ({
 
   const onAddToCart = () => dispatch({type: REDUCER_ACTIONS.ADD, payload: { ...product, qty: 1}})
 
-  const itemInCart = inCart ? '-> in Cart' : null
+  const itemInCart = inCart ? '-> in Cart ✅ ' : null
 
   const content = <article className="product">
     <h3>{ product.name }</h3>
     <img src={img} alt={product.name} className="product__img" />
     <p>
-      { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price) } { itemInCart }
+      { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price) }
+      { itemInCart }
     </p>
     <button onClick={onAddToCart}>Add to cart</button>
   </article>
