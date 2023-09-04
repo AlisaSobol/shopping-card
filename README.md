@@ -2,6 +2,15 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+!!! IMPORTANT !!! check out:
+Type Assertions & Type Casting:
+
+https://www.youtube.com/watch?v=Sj1425gwXxQ&list=PL0Zuz27SZ-6NS8GXt5nPrcYpust89zq_b&index=5
+AND
+see Typescript Index Signatures, keyof Assertions:
+
+ https://www.youtube.com/watch?v=2eAqXLi8q70&list=PL0Zuz27SZ-6NS8GXt5nPrcYpust89zq_b&index=7
+
 ## To run local server use following expression
 
 ### npx json-server -w data/products.json -p 3500
